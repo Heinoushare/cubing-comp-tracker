@@ -17,20 +17,21 @@ export const actions = {
         const username = formData.get('username')?.toString();
         const email = formData.get('email')?.toString();
         const password = formData.get('password')?.toString();
-        const confirmPassword = formData.get('confirmPassword')?.toString();
+        const confirmPassword = formData.get('confirmationPassword')?.toString();
 
         if (!username || !email || !password || !confirmPassword) {
-            return {"error": "Missing required fields"};
+            return {error: "Missing required fields"};
         }
         if (password != confirmPassword) {
-            return {"error": "Passwords do not match"};
+            return {error: "Passwords do not match"};
         }
 
         // TODO: check if email is valid
 
+        console.log("h");
         await platform.env.DB.prepare(
             "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
-        ).run();
+        ).bind(username, email, password).run();
 
         cookies.set('username', username, {
             path: '/',

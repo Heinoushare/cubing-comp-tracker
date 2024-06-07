@@ -8,7 +8,7 @@ export async function POST({request, platform }) {
     let email = data.email;
     let password = data.password;
     if (!username || !email || !password) {
-        return new Response("Missing required fields", { status: 400 });
+        return new Response(JSON.stringify({"response": false}));
     }
 
     let result = await platform.env.DB.prepare("SELECT * FROM users WHERE username = ? AND email = ? AND password = ?").bind(username, email, password).first();

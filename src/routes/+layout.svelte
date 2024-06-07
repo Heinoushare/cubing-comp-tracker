@@ -1,5 +1,11 @@
 <script lang="ts"> 
+
     import { page } from '$app/stores'
+
+    /** @type {import('./$types').PageData} */
+	export let data;
+
+    let loggedIn = data.loggedIn;
 </script>
 
 <svelte:head>
@@ -23,7 +29,7 @@
 
 
         <!-- Favicon -->
-        <!-- <link href="favicon.png" rel="icon"> -->
+        <link href="favicon.png" rel="icon">
 
         <!-- General CSS -->
         <!-- <link href="/styles.css" rel="stylesheet"> -->
@@ -39,9 +45,16 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="nav nav-pills collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav ml-auto mt-2">
-                    <li class="nav-item"><a class="nav-link" class:active={$page.url.pathname==="/register"} href="/login">Log In</a></li>
-                </ul>
+                {#if loggedIn}
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                    </ul>
+                {:else}
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" class:active={$page.url.pathname==="/register"} href="/register">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" class:active={$page.url.pathname==="/login"} href="/login">Log In</a></li>
+                    </ul>
+                {/if}
             </div>
         </nav>
 
