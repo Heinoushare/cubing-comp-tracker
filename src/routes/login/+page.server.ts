@@ -14,23 +14,39 @@ export async function load({ cookies }) {
 export const actions = {
 	default: async ({cookies, request, platform}) => {
         const formData = await request.formData();
-        const wca_id = formData.get('wca_id')?.toString();
-        const email = formData.get('email')?.toString();
+        const wca_idOrEmail = formData.get('wca_idOrEmail')?.toString();
         const password = formData.get('password')?.toString();
-        const confirmPassword = formData.get('confirmationPassword')?.toString();
 
-        if (!wca_id || !email || !password || !confirmPassword) {
+        if (!wca_idOrEmail || !password) {
             return {error: "Missing required fields"};
         }
-        if (password != confirmPassword) {
-            return {error: "Passwords do not match"};
+
+        let loginIsValid = false;
+        let wca_id = "";
+        let email = "";
+
+        // First check as if username
+        let user = await platform.env.DB.prepare(
+            "SELECT * FROM users WHERE wca_id = ? AND password = ?"
+        ).bind(wca_idOrEmail, password).first();
+        if (user) {
+            loginIsValid = true;
+            wca_id = user["wca_id"];
+            email = user["email"];
         }
 
-        // TODO: check if email is valid
+        user = await platform.env.DB.prepare(
+            "SELECT * FROM users WHERE email = ? AND password = ?"
+        ).bind(wca_idOrEmail, password).first();
+        if (user) {
+            loginIsValid = true;
+            wca_id = user["wca_id"];
+            email = user["email"];
+        }
 
-        await platform.env.DB.prepare(
-            "INSERT INTO users (wca_id, email, password) VALUES (?, ?, ?)"
-        ).bind(wca_id, email, password).run();
+        if (!loginIsValid) {
+            return {error: "Login data is invalid"}
+        }
 
         cookies.set('wca_id', wca_id, {
             path: '/',
@@ -42,6 +58,6 @@ export const actions = {
             path: '/',
             maxAge: 60 * 60 * 24 * 30});
 
-        throw redirect(303, '/');
+        throw redirect(303, "/");
 	}
 };

@@ -13,16 +13,16 @@ export async function POST({request, platform }) {
         return new Response("Invalid API key", { status: 400 });
     }
 
-    let username = data.username;
+    let wca_id = data.wca_id;
     let email = data.email;
     let password = data.password;
-    if (!username || !email || !password) {
+    if (!wca_id || !email || !password) {
         return new Response("Missing required fields", { status: 400 });
     }
 
     let result = await platform.env.DB.prepare(
-        "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
-    ).run();
+        "INSERT INTO users (wca_id, email, password) VALUES (?, ?, ?)"
+    ).bind(wca_id, email, password).run();
     return new Response(JSON.stringify(result));
 }
 
@@ -35,21 +35,21 @@ export async function GET({ request, platform }) {
     }
 
     let id = data.id;
-    let username = data.username;
+    let wca_id = data.wca_id;
     let email = data.email;
     let password = data.password;
 
     let result;
 
-    if (!id && !username && !email && !password) {
+    if (!id && !wca_id && !email && !password) {
         return new Response("Missing required fields", { status: 400 });
     }
 
     else if (id) {
         result = await platform.env.DB.prepare("SELECT * FROM users").all();
     }
-    else if (username) {
-        result = await platform.env.DB.prepare("SELECT * FROM users WHERE username = ?").bind(username).all();
+    else if (wca_id) {
+        result = await platform.env.DB.prepare("SELECT * FROM users WHERE wca_id = ?").bind(wca_id).all();
     }
     else if (email) {
         result = await platform.env.DB.prepare("SELECT * FROM users WHERE email = ?").bind(email).all();

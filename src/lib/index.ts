@@ -2,11 +2,11 @@
 
 const URL = import.meta.env.VITE_URL;
 
-export async function checkLogin(username: any, email: any, password: any) {
+export async function checkLogin(wca_id: any, email: any, password: any) {
     try {
 
         let requestData = {
-            "username": username,
+            "wca_id": wca_id,
             "email": email,
             "password": password
         }

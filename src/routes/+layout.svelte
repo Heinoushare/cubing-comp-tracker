@@ -1,11 +1,12 @@
-<script lang="ts"> 
+<script lang="ts">
 
     import { page } from '$app/stores'
 
     /** @type {import('./$types').PageData} */
 	export let data;
+    $: loggedIn = data.loggedIn;
 
-    let loggedIn = data.loggedIn;
+
 </script>
 
 <svelte:head>
@@ -32,7 +33,7 @@
         <link href="favicon.png" rel="icon">
 
         <!-- General CSS -->
-        <!-- <link href="/styles.css" rel="stylesheet"> -->
+        <link href="/styles.css" rel="stylesheet">
 
 
     </head>
@@ -47,12 +48,12 @@
             <div class="nav nav-pills collapse navbar-collapse" id="navbar">
                 {#if loggedIn}
                     <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" data-sveltekit-reload href="/logout">Logout</a></li>
                     </ul>
                 {:else}
                     <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" class:active={$page.url.pathname==="/register"} href="/register">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" class:active={$page.url.pathname==="/login"} href="/login">Log In</a></li>
+                        <li class="nav-item"><a class="nav-link" data-sveltekit-reload class:active={$page.url.pathname==="/register"} href="/register">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" data-sveltekit-reload class:active={$page.url.pathname==="/login"} href="/login">Log In</a></li>
                     </ul>
                 {/if}
             </div>
