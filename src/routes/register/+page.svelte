@@ -7,7 +7,7 @@
 
     const URL = import.meta.env.VITE_URL;
 
-    let userame = "";
+    let username = "";
     let email = "";
     let password = "";
     let confirmPassword = "";

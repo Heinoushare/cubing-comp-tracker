@@ -1,6 +1,7 @@
 /** @type {import('./$types').Actions} */
 
 import { redirect } from '@sveltejs/kit';
+import { checkLogin } from '$lib/index';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ cookies }) {
@@ -11,12 +12,12 @@ export async function load({ cookies }) {
 }
 
 export const actions = {
-	default: async ({cookies, request}) => {
+	default: async ({cookies, request, platform}) => {
         const formData = await request.formData();
-        const username = formData.get('username');
-        const email = formData.get('email');
-        const password = formData.get('password');
-        const confirmPassword = formData.get('confirmPassword');
+        const username = formData.get('username')?.toString();
+        const email = formData.get('email')?.toString();
+        const password = formData.get('password')?.toString();
+        const confirmPassword = formData.get('confirmPassword')?.toString();
 
         if (!username || !email || !password || !confirmPassword) {
             return {"error": "Missing required fields"};
@@ -31,9 +32,15 @@ export const actions = {
             "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
         ).run();
 
-        cookies.set('username', username);
-        cookies.set('email', email);
-        cookies.set('password', password);
+        cookies.set('username', username, {
+            path: '/',
+            maxAge: 60 * 60 * 24 * 30});
+        cookies.set('email', email, {
+            path: '/',
+            maxAge: 60 * 60 * 24 * 30});
+        cookies.set('password', password, {
+            path: '/',
+            maxAge: 60 * 60 * 24 * 30});
 
         throw redirect(303, '/');
 	}
