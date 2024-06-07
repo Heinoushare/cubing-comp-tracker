@@ -1,0 +1,4 @@
+-- DROP TABLE users;
+CREATE TABLE IF NOT EXISTS users (id INTEGER, username TEXT NOT NULL, email TEXT NOT NULL, password TEXT NOT NULL, PRIMARY KEY(id));
+CREATE UNIQUE INDEX IF NOT EXISTS username ON users (username);
+CREATE UNIQUE INDEX IF NOT EXISTS username ON users (email);
