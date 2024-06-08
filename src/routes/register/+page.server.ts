@@ -1,14 +1,20 @@
 /** @type {import('./$types').Actions} */
 
 import { redirect } from '@sveltejs/kit';
-import { checkLogin } from '$lib/index';
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ cookies }) {
-	const loggedIn = await checkLogin(cookies.get('wca_id'), cookies.get('email'), cookies.get('password'));
-	if (loggedIn) {
-        throw redirect(303, '/');
+export async function load({ cookies, platform }) {
+
+    if (!cookies.get("wca_id") || !cookies.get("email") || !cookies.get("password")) {
+        return;
     }
+	const user = await platform.env.DB.prepare(
+        "SELECT * FROM users WHERE wca_id = ? AND email = ? AND password = ?"
+    ).bind(cookies.get("wca_id"), cookies.get("email"), cookies.get("password")).first();
+    if (user) {
+        throw redirect(303, "/");
+    }
+
 }
 
 export const actions = {

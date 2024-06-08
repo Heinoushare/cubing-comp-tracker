@@ -4,6 +4,10 @@ import { redirect } from '@sveltejs/kit';
 
 export async function load({ cookies, platform, params }) {
 
+    if (!cookies.get("wca_id") || !cookies.get("email") || !cookies.get("password")) {
+        throw redirect(303, "/login");
+    }
+
 	const user = await platform.env.DB.prepare(
         "SELECT * FROM users WHERE wca_id = ? AND email = ? AND password = ?"
     ).bind(cookies.get("wca_id"), cookies.get("email"), cookies.get("password")).first();
