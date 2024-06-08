@@ -47,6 +47,10 @@
             </button>
             <div class="nav nav-pills collapse navbar-collapse" id="navbar">
                 {#if loggedIn}
+                    <ul class="navbar-nav mr-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" data-sveltekit-reload href="/competitions/zones">Competition Zones</a></li>
+                    </ul>
+
                     <ul class="navbar-nav ml-auto mt-2">
                         <li class="nav-item"><a class="nav-link" data-sveltekit-reload href="/logout">Logout</a></li>
                     </ul>
