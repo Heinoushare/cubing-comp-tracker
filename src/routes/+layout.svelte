@@ -6,6 +6,8 @@
 	export let data;
     $: loggedIn = data.loggedIn;
 
+    export const prerender = false;
+
 
 </script>
 
