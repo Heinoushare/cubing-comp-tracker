@@ -15,7 +15,7 @@
             <h4 class="card-title">Zone {i}</h4>
             <p class="card-text">Latitude: {zone["latitude"]} Longitude: {zone["longitude"]}</p>
             <p class="card-text">Radius: {zone["radius"]} {zone["radius_units"]}</p>
-            <a href="/competitions/zones/{zone["zone_id"]}" class="btn btn-primary">Edit</a>
+            <a href="/competitions/zones/{zone["zone_id"]}" class="btn btn-primary">View/Edit</a>
             <form method="POST" action="?/delete">
                 <button name="zone_id" value="{zone["zone_id"]}" type="submit" class="btn btn-danger">Delete</button>
             </form>
