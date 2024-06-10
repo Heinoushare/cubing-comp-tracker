@@ -169,7 +169,7 @@
             {:else}
                 <td>From {comp["date_from"]} till {comp["date_till"]}</td>
             {/if}
-            <td>{comp["venue_address"]}</td>
+            <td>{comp["venue_address"]}, {comp["country"]}</td>
             <td>{comp["events"]}</td>
         </tr>
 
