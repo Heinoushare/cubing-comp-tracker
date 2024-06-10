@@ -8,6 +8,7 @@
     let locationButtonText = "Use Current Location";
     function useCurrentLocation() {
         if (navigator.geolocation) {
+            locationButtonText = "Loading...";
             navigator.geolocation.getCurrentPosition(showLocation);
         } else { 
             locationButtonText = "Geolocation is not supported by this browser.";
@@ -17,6 +18,7 @@
     function showLocation(position: { coords: { latitude: number; longitude: number; }; }) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude
+        locationButtonText = "Done";
     }
 
     let newZone = false;

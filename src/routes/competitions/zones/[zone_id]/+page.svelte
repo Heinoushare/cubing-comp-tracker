@@ -17,6 +17,7 @@
     function useCurrentLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showLocation);
+            locationButtonText = "Location...";
         } else { 
             locationButtonText = "Geolocation is not supported by this browser.";
         }
@@ -25,6 +26,7 @@
     function showLocation(position: { coords: { latitude: number; longitude: number; }; }) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude
+        locationButtonText = "Done";
     }
 
     let editZone = false;
