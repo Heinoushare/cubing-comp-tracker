@@ -19,7 +19,43 @@ export async function load({ cookies, platform, params }) {
         "SELECT * FROM competition_zones WHERE zone_id = ?"
     ).bind(parseInt(params.zone_id)).first();
 
-    return {zone: zone};
+    let competitionsPromise = await platform.env.DB.prepare("SELECT * FROM competitions").run();
+    let competitions = await competitionsPromise["items"];
+
+    let competitionsInZone = [];
+    const lat1 = zone["latitude"];
+    const lon1 = zone["longitude"];
+    let radius = zone["radius"];
+
+    // Convert radius to meters
+    if (zone["radius_units"] === "kilometers") {
+        radius *= 1000;
+    }
+    else if (zone["radius_units"] === "miles") {
+        radius *= 1609.344
+    }
+
+    for (let i in competitions) {
+        const lat2 = competitions[i]["venue"]["coordinates"]["latitude"];
+        const lon2 = competitions[i]["venue"]["coordinates"]["longitude"];
+        const R = 6371e3; // metres
+        const φ1 = lat1 * Math.PI/180; // φ, λ in radians
+        const φ2 = lat2 * Math.PI/180;
+        const Δφ = (lat2-lat1) * Math.PI/180;
+        const Δλ = (lon2-lon1) * Math.PI/180;
+
+        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        const d = R * c; // in metres
+
+        if (d <= radius) {
+            competitionsInZone.push(comps[j]);
+        }
+    }
+    return {zone: zone, competitions: competitionsInZone};
 
 }
 
