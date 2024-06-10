@@ -52,7 +52,7 @@ export async function load({ cookies, platform, params }) {
         const d = R * c; // in metres
 
         if (d <= radius) {
-            competitionsInZone.push(comps[j]);
+            competitionsInZone.push(competitions[i]);
         }
     }
     return {zone: zone, competitions: competitionsInZone};
