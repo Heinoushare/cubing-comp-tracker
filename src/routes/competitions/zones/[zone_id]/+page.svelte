@@ -26,22 +26,27 @@
     <tr>
         <th>Name</th>
         <th>Date</th>
+        <th>Venue</th>
+        <th>events</th>
     </tr>
 
     {#each competitions as comp, i}
 
         <tr>
             <td>{comp["name"]}</td>
-            <td>From {comp["date"]["from"]} till {comp["date"]["till"]}</td>
+            <td>From {comp["date_from"]} till {comp["date_till"]}</td>
+            <td>{comp["venue_address"]}</td>
+            <td>{comp["events"]}</td>
         </tr>
 
     {/each}
 
 </table>
 
-<button on:click={edit} class="btn btn-primary">Edit Zone</button>
-
-{#if editZone}
+<br>
+{#if !editZone}
+    <button on:click={edit} class="btn btn-primary">Edit Zone</button>
+{:else if editZone}
     <h5>Edit your zone.</h5>
     <form method="POST">
         <label>Location</label>

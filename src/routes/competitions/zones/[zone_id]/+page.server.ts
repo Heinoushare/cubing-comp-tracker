@@ -19,8 +19,8 @@ export async function load({ cookies, platform, params }) {
         "SELECT * FROM competition_zones WHERE zone_id = ?"
     ).bind(parseInt(params.zone_id)).first();
 
-    let competitionsPromise = await platform.env.DB.prepare("SELECT * FROM competitions").run();
-    let competitions = await competitionsPromise["items"];
+    let competitionsPromise = await platform.env.DB.prepare("SELECT * FROM competitions").all();
+    let competitions = await competitionsPromise["results"];
 
     let competitionsInZone = [];
     const lat1 = zone["latitude"];
@@ -36,8 +36,8 @@ export async function load({ cookies, platform, params }) {
     }
 
     for (let i in competitions) {
-        const lat2 = competitions[i]["venue"]["coordinates"]["latitude"];
-        const lon2 = competitions[i]["venue"]["coordinates"]["longitude"];
+        const lat2 = competitions[i]["venue_latitude"];
+        const lon2 = competitions[i]["venue_longitude"];
         const R = 6371e3; // metres
         const φ1 = lat1 * Math.PI/180; // φ, λ in radians
         const φ2 = lat2 * Math.PI/180;
