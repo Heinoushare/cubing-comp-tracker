@@ -28,7 +28,7 @@
 {#each zones as zone, i}
     <div class="card bg-success">
         <div class="card-body">
-            <h4 class="card-title">Zone {i}</h4>
+            <h4 class="card-title">{zone["name"]}</h4>
             <p class="card-text">Latitude: {zone["latitude"]} Longitude: {zone["longitude"]}</p>
             <p class="card-text">Radius: {zone["radius"]} {zone["radius_units"]}</p>
             <a href="/competitions/zones/{zone["zone_id"]}" class="btn btn-primary">View/Edit</a>
@@ -47,6 +47,9 @@
     <br>
     <h5>Make a circle of the area that you would like to get notifications about competitions for.</h5>
     <form method="POST" action="?/create">
+        <label>Zone Name</label>
+        <input class="form-control form-group" type="text" name="name" placeholder="Zone Name" autocomplete="off" required>
+        <br>
         <label>Location</label>
         <input bind:value={latitude} class="form-control form-group" type="number" placeholder="Latitude" name="latitude" step="0.000000000000000001" autocomplete="off" required>
         <input bind:value={longitude} class="form-control form-group" type="number" placeholder="Longitude" name="longitude" step="0.000000000000000001" autocomplete="off" required>

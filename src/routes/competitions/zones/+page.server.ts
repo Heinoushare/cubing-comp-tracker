@@ -26,12 +26,13 @@ export async function load({ cookies, platform }) {
 export const actions = {
     create: async ({cookies, request, platform}) => {
         const formData = await request.formData();
+        const name = formData.get('name')?.toString()
         const latitude = parseFloat(formData.get('latitude'));
         const longitude = parseFloat(formData.get('longitude'));
         const radius = parseFloat(formData.get('radius'));
         const unit = formData.get('unit')?.toString();
 
-        if (!latitude || !longitude || !radius || !unit) {
+        if (!name || !latitude || !longitude || !radius || !unit) {
             return {error: "Missing required fields"};
         }
         if (unit != "miles" && unit != "kilometers") {
@@ -48,8 +49,8 @@ export const actions = {
         }
 
         await platform.env.DB.prepare(
-            "INSERT INTO competition_zones (user_id, latitude, longitude, radius, radius_units) VALUES (?, ?, ?, ?, ?)"
-        ).bind(user["id"], latitude, longitude, radius, unit).run();
+            "INSERT INTO competition_zones (user_id, name, latitude, longitude, radius, radius_units) VALUES (?, ?, ?, ?, ?, ?)"
+        ).bind(user["id"], name, latitude, longitude, radius, unit).run();
 
         throw redirect(303, '/competitions/zones');
     },

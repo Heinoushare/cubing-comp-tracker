@@ -62,12 +62,13 @@ export async function load({ cookies, platform, params }) {
 export const actions = {
     default: async ({cookies, request, platform, params}) => {
         const formData = await request.formData();
+        const name = formData.get('name')?.toString()
         const latitude = parseFloat(formData.get('latitude'));
         const longitude = parseFloat(formData.get('longitude'));
         const radius = parseFloat(formData.get('radius'));
         const unit = formData.get('unit')?.toString();
 
-        if (!latitude || !longitude || !radius || !unit) {
+        if (!name || !latitude || !longitude || !radius || !unit) {
             return {error: "Missing required fields"};
         }
         if (unit != "miles" && unit != "kilometers") {
@@ -84,8 +85,8 @@ export const actions = {
         }
 
         await platform.env.DB.prepare(
-            "UPDATE competition_zones SET latitude = ?, longitude = ?, radius = ?, radius_units = ? WHERE zone_id = ?"
-        ).bind(latitude, longitude, radius, unit, params.zone_id).run();
+            "UPDATE competition_zones SET name = ?, latitude = ?, longitude = ?, radius = ?, radius_units = ? WHERE zone_id = ?"
+        ).bind(name, latitude, longitude, radius, unit, params.zone_id).run();
 
         throw redirect(303, '/competitions/zones');
     }

@@ -7,6 +7,7 @@
 
     let zone = data.zone;
 
+    let zoneName = zone["name"];
     let latitude = zone["latitude"];
     let longitude = zone["longitude"];
     let radius = zone["radius"];
@@ -34,7 +35,7 @@
 </script>
 
 
-<h5>Upcoming Competitions in your zone:</h5>
+<h5>Upcoming Competitions in {zone["name"]} zone:</h5>
 <br>
 <table>
     <tr>
@@ -63,6 +64,9 @@
 {:else if editZone}
     <h5>Edit your zone.</h5>
     <form method="POST">
+        <label>Zone Name</label>
+        <input bind:value={zoneName} class="form-control form-group" type="text" name="name" placeholder="Zone Name" autocomplete="off" required>
+        <br>
         <label>Location</label>
         <input bind:value={latitude} class="form-control form-group" type="number" placeholder="Latitude" name="latitude" step="0.000000000000000001" autocomplete="off" required>
         <input bind:value={longitude} class="form-control form-group" type="number" placeholder="Longitude" name="longitude" step="0.000000000000000001" autocomplete="off" required>

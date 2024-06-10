@@ -9,7 +9,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS email ON users (email);
 
 -- competition zones
 CREATE TABLE IF NOT EXISTS competition_zones (
-    zone_id INTEGER, user_id INTEGER NOT NULL, 
+    zone_id INTEGER, user_id INTEGER NOT NULL, name TEXT NOT NULL,
     latitude REAL NOT NULL, longitude REAL NOT NULL, radius INTEGER NOT NULL , radius_units TEXT NOT NULL, 
     PRIMARY KEY (zone_id), FOREIGN KEY(user_id) REFERENCES users(id));
 
