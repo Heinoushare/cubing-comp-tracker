@@ -1,9 +1,9 @@
 <script lang="ts">
+
     /** @type {import('./$types').PageData} */
 	export let data;
-    
 
-    let competitions = data.competitionsInZone;
+    let competitions = data.competitions;
 
     let zone = data.zone;
 

@@ -1,6 +1,5 @@
 /** @type {import('./$types').PageServerLoad} */
 
-export const prerender = false;
 
 export async function load({ cookies, platform }) {
 
