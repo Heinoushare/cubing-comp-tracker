@@ -88,6 +88,6 @@ export const actions = {
             "UPDATE competition_zones SET name = ?, latitude = ?, longitude = ?, radius = ?, radius_units = ? WHERE zone_id = ?"
         ).bind(name, latitude, longitude, radius, unit, params.zone_id).run();
 
-        throw redirect(303, '/competitions/zones');
+        throw redirect(303, '/competitions/zones/' + params.zone_id);
     }
 }

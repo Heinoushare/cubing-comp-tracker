@@ -206,3 +206,9 @@
         <button type="submit" class="btn btn-primary">Edit</button>
     </form>
 {/if}
+
+<br>
+<br>
+<br>
+<br>
+<br>
