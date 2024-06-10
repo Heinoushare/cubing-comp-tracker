@@ -157,7 +157,7 @@
         <th>Name</th>
         <th>Date</th>
         <th>Venue</th>
-        <th>events</th>
+        <th>Events</th>
     </tr>
 
     {#each competitions as comp, i}
