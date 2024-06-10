@@ -163,13 +163,13 @@
     {#each competitions as comp, i}
 
         <tr>
-            <td>{comp["name"]}</td>
+            <td><a href="https://www.worldcubeassociation.org/competitions/{comp["competition_id"]}" target="_blank">{comp["name"]}</a></td>
             {#if comp["date_from"] == comp["date_till"]}
                 <td>{comp["date_from"]}</td>
             {:else}
                 <td>From {comp["date_from"]} till {comp["date_till"]}</td>
             {/if}
-            <td>{comp["venue_address"]}, {comp["country"]}</td>
+            <td><a href="https://www.google.com/maps?q={comp["venue_latitude"]},{comp["venue_longitude"]}" target="_blank">{comp["venue_address"]}, {comp["country"]}</a></td>
             <td>{comp["events"]}</td>
         </tr>
 
