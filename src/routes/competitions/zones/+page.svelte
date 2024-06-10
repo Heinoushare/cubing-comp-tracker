@@ -3,6 +3,22 @@
 	export let data;
     $: zones = data.zones;
 
+    let latitude: number;
+    let longitude: number;
+    let locationButtonText = "Use Current Location";
+    function useCurrentLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showLocation);
+        } else { 
+            locationButtonText = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showLocation(position: { coords: { latitude: number; longitude: number; }; }) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude
+    }
+
     let newZone = false;
     function makeNewZone() {
         newZone = true;
@@ -32,12 +48,13 @@
     <h5>Make a circle of the area that you would like to get notifications about competitions for.</h5>
     <form method="POST" action="?/create">
         <label>Location</label>
-        <input type="number" placeholder="Latitude" name="latitude" step="0.000000000000000001" autocomplete="off" required>
-        <input type="number" placeholder="Longitude" name="longitude" step="0.000000000000000001" autocomplete="off" required>
+        <input bind:value={latitude} class="form-control form-group" type="number" placeholder="Latitude" name="latitude" step="0.000000000000000001" autocomplete="off" required>
+        <input bind:value={longitude} class="form-control form-group" type="number" placeholder="Longitude" name="longitude" step="0.000000000000000001" autocomplete="off" required>
+        <button type="button" class="btn btn-warning" on:click={useCurrentLocation}>{locationButtonText}</button>
         <br>
         <label>Range</label>
-        <input type="number" placeholder="Radius" name="radius" autocomplete="off" required>
-        <select name="unit" required>
+        <input type="number" class="form-control form-group" placeholder="Radius" name="radius" autocomplete="off" required>
+        <select class="form-control form-group" name="unit" required>
             <option value="miles">Miles</option>
             <option value="kilometers">Kilometers</option>
         </select>
