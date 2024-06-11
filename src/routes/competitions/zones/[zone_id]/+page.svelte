@@ -156,6 +156,7 @@
     <tr>
         <th>Name</th>
         <th>Date</th>
+        <th>Distance</th>
         <th>Venue</th>
         <th>Events</th>
     </tr>
@@ -169,6 +170,7 @@
             {:else}
                 <td>From {comp["date_from"]} till {comp["date_till"]}</td>
             {/if}
+            <td>{comp["distance"]}</td>
             <td><a href="https://www.google.com/maps?q={comp["venue_latitude"]},{comp["venue_longitude"]}" target="_blank">{comp["venue_address"]}, {comp["country"]}</a></td>
             <td>{comp["events"]}</td>
         </tr>

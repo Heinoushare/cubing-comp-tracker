@@ -49,10 +49,19 @@ export async function load({ cookies, platform, params }) {
                 Math.sin(Δλ/2) * Math.sin(Δλ/2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
-        const d = R * c; // in metres
+        let d = R * c; // in metres
 
         if (d <= radius) {
             competitionsInZone.push(competitions[i]);
+
+            if (zone["radius_units"] === "kilometers") {
+                d /= 1000;
+            }
+            else if (zone["radius_units"] === "miles") {
+                d /= 1609.344
+            }
+            d = Math.round(d * 10) / 10
+            competitionsInZone[competitionsInZone.length - 1]["distance"] = d.toString() + " " + zone["radius_units"];
         }
     }
     return {zone: zone, competitions: competitionsInZone};
