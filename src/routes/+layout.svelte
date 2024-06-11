@@ -40,7 +40,7 @@
 
     <body>
 
-        <nav class="navbar navbar-expand-md border">
+        <nav class="navbar navbar-expand-md border navbar-light bg-light">
             <a class="navbar-brand" href="/"><span class="blue">CCT</span></a>
             <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
