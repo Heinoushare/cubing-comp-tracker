@@ -52,6 +52,32 @@ export const actions = {
             return {error: "Login data is invalid"}
         }
 
+        let person;
+        try {
+            const response = await fetch("https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/persons/" + wca_id + ".json", {
+                method: 'GET', // Set the method to GET
+                headers: {
+                    'Content-Type': 'application/json' // Set the headers appropriately
+                }
+            });
+
+            person = await response.json();
+            if (!response.ok) {
+                return {error: "Invalid WCA ID"};
+            }
+        } catch (e) {
+            console.log(e);
+            return {error: "Invalid WCA ID"};
+        }
+
+        await platform.env.DB.prepare("DELETE FROM persons WHERE wca_id = ?").bind(wca_id).run();
+
+        await platform.env.DB.prepare(
+            "INSERT INTO persons (wca_id, name, numberOfCompetitions, competitionIds, rank, results) VALUES (?, ?, ?, ?, ?, ?)"
+        ).bind(
+            wca_id, person["name"], person["numberOfCompetitions"], person["competitionIds"].join(), JSON.stringify(person["rank"]), JSON.stringify(person["results"])
+        ).run();
+
         cookies.set('wca_id', wca_id, {
             path: '/',
             maxAge: 60 * 60 * 24 * 30});

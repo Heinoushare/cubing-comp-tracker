@@ -35,7 +35,7 @@
     }
 
 
-    let events = {
+    let eventsFiltered = {
         "333": false,
         "222": false,
         "444": false,
@@ -55,16 +55,16 @@
         "333mbf": false
     }
     $: {
-        if (events["333"] || events["222"] || events["444"] || events["555"] || events["666"] || events["777"] || 
-            events["333bf"] || events["333fm"] || events["333oh"] || 
-            events["clock"] || events["minx"] || events["pyram"] || events["skewb"] || events["sq1"] || 
-            events["444bf"] || events["555bf"] || events["333mbf"]) {
+        if (eventsFiltered["333"] || eventsFiltered["222"] || eventsFiltered["444"] || eventsFiltered["555"] || eventsFiltered["666"] || eventsFiltered["777"] || 
+            eventsFiltered["333bf"] || eventsFiltered["333fm"] || eventsFiltered["333oh"] || 
+            eventsFiltered["clock"] || eventsFiltered["minx"] || eventsFiltered["pyram"] || eventsFiltered["skewb"] || eventsFiltered["sq1"] || 
+            eventsFiltered["444bf"] || eventsFiltered["555bf"] || eventsFiltered["333mbf"]) {
 
             competitions = [];
             for (let comp of data.competitions) {
-                for (let [key, value] of Object.entries(events)) {
+                for (let [key, value] of Object.entries(eventsFiltered)) {
                     if (value) {
-                        if (comp["events"].lastIndexOf(key) != -1) {
+                        if (comp["events"].split(",").indexOf(key) != -1) {
                             competitions.push(comp);
                         }
                     }
@@ -75,6 +75,26 @@
             competitions = data.competitions;
         }
     }
+
+    let eventsStrings = {
+        "333": " 3x3x3",
+        "222": " 2x2x2",
+        "444": " 4x4x4",
+        "555": " 5x5x5",
+        "666": " 6x6x6",
+        "777": " 7x7x7",
+        "333bf": " 3BLD",
+        "333fm": " FMC",
+        "333oh": " OH",
+        "clock": " Clock" ,
+        "minx": " Mega",
+        "pyram": " Pyra",
+        "skewb": " Skewb",
+        "sq1": " SQ1",
+        "444bf": " 4BLD",
+        "555bf": " 5BLD",
+        "333mbf": " MBLD"
+    }
 </script>
 
 
@@ -84,71 +104,71 @@
 <div class="events-checkbox-flexbox">
     <div class="events-checkbox-flex">
         <label>3x3x3</label>
-        <input bind:checked={events["333"]} type="checkbox">
+        <input bind:checked={eventsFiltered["333"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>2x2x2</label>
-        <input bind:checked={events["222"]} type="checkbox">
+        <input bind:checked={eventsFiltered["222"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>4x4x4</label>
-        <input bind:checked={events["444"]} type="checkbox">
+        <input bind:checked={eventsFiltered["444"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>5x5x5</label>
-        <input bind:checked={events["555"]} type="checkbox">
+        <input bind:checked={eventsFiltered["555"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>6x6x6</label>
-        <input bind:checked={events["666"]} type="checkbox">
+        <input bind:checked={eventsFiltered["666"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>7x7x7</label>
-        <input bind:checked={events["777"]} type="checkbox">
+        <input bind:checked={eventsFiltered["777"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>3BLD</label>
-        <input bind:checked={events["333bf"]} type="checkbox">
+        <input bind:checked={eventsFiltered["333bf"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>FMC</label>
-        <input bind:checked={events["333fm"]} type="checkbox">
+        <input bind:checked={eventsFiltered["333fm"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>OH</label>
-        <input bind:checked={events["333oh"]} type="checkbox">
+        <input bind:checked={eventsFiltered["333oh"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>Clock</label>
-        <input bind:checked={events["clock"]} type="checkbox">
+        <input bind:checked={eventsFiltered["clock"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>Mega</label>
-        <input bind:checked={events["minx"]} type="checkbox">
+        <input bind:checked={eventsFiltered["minx"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>Pyra</label>
-        <input bind:checked={events["pyram"]} type="checkbox">
+        <input bind:checked={eventsFiltered["pyram"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>Skewb</label>
-        <input bind:checked={events["skewb"]} type="checkbox">
+        <input bind:checked={eventsFiltered["skewb"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>SQ1</label>
-        <input bind:checked={events["sq1"]} type="checkbox">
+        <input bind:checked={eventsFiltered["sq1"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>4BLD</label>
-        <input bind:checked={events["444bf"]} type="checkbox">
+        <input bind:checked={eventsFiltered["444bf"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>5BLD</label>
-        <input bind:checked={events["555bf"]} type="checkbox">
+        <input bind:checked={eventsFiltered["555bf"]} type="checkbox">
     </div>
     <div class="events-checkbox-flex">
         <label>MBLD</label>
-        <input bind:checked={events["333mbf"]} type="checkbox">
+        <input bind:checked={eventsFiltered["333mbf"]} type="checkbox">
     </div>
 </div>
 
@@ -158,21 +178,30 @@
         <th>Date</th>
         <th>Distance</th>
         <th>Venue</th>
-        <th>Events</th>
+        <th>Events (Click to Analyze)</th>
     </tr>
 
-    {#each competitions as comp, i}
+    {#each competitions as comp}
 
         <tr>
             <td><a href="https://www.worldcubeassociation.org/competitions/{comp["competition_id"]}" target="_blank">{comp["name"]}</a></td>
-            {#if comp["date_from"] == comp["date_till"]}
-                <td>{comp["date_from"]}</td>
-            {:else}
-                <td>From {comp["date_from"]} till {comp["date_till"]}</td>
-            {/if}
+            <td>
+                {#if comp["date_from"] == comp["date_till"]}
+                    {comp["date_from"]}
+                {:else}
+                    From {comp["date_from"]} till {comp["date_till"]}
+                {/if}
+            </td>
             <td>{comp["distance"]}</td>
             <td><a href="https://www.google.com/maps?q={comp["venue_latitude"]},{comp["venue_longitude"]}" target="_blank">{comp["venue_address"]}, {comp["country"]}</a></td>
-            <td>{comp["events"]}</td>
+            <td>
+                {#each comp["events"].split(",") as event, j}
+                    <a href="/competitions/analyze/{comp["competition_id"]}/{event}">{eventsStrings[event]}</a>
+                    {#if j < comp["events"].split(",").length - 1}
+                        ,
+                    {/if}
+                {/each}
+            </td>
         </tr>
 
     {/each}
