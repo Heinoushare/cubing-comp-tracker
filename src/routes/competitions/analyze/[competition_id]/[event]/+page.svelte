@@ -4,7 +4,19 @@
     /** @type {import('./$types').PageData} */
     export let data;
 
-    let rows = data.rows;
+    let rows = [...data.rows];
+
+    let sort = "mean";
+
+    function sortChange(event: { currentTarget: { id: string; }; }) {
+        sort = event.currentTarget.id;
+        rows = [...data.rows];
+        if (sort === "mean") {
+            rows.sort((a, b) => a["mean"] - b["mean"]);
+        }
+    }
+
+
 
     let event = $page.params.event;
 
@@ -13,12 +25,21 @@
 {#if data?.error}
 <h5>{data.error}</h5>
 {:else if event == "333"}
+
+    <h4>Sort By:</h4>
+    <input on:change={sortChange} name="sort" id="PR" type="radio">
+    <label>PR</label><br>
+    <input on:change={sortChange} name="sort" id="mean" type="radio">
+    <label>Mean</label><br>
+
+
     <table>
         <tr>
             <th>#</th>
             <th>Name</th>
             <th>WCA ID</th>
             <th>PR Average</th>
+            <th>Mean of Averages Since Last PR Average</th>
         </tr>
 
         {#each rows as row, i}
@@ -26,8 +47,9 @@
             <tr>
                 <td>{i + 1}</td>
                 <td>{row["name"]}</td>
-                <td><a href="https://www.worldcubeassociation.org/persons/{row["wca_id"]}">{row["wca_id"]}</a></td>
+                <td><a href="https://www.worldcubeassociation.org/persons/{row["wca_id"]}" target="_blank">{row["wca_id"]}</a></td>
                 <td>{row["average"]}</td>
+                <td>{row["mean"]}</td>
             </tr>
 
         {/each}
