@@ -1,5 +1,4 @@
 import { parse } from 'node-html-parser';
-import fetch from 'node-fetch';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
